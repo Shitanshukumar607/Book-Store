@@ -17,7 +17,7 @@ const Banner = () => {
           Subscribe
         </button>
       </div>
-      <img className="" src={bannerImg} alt="banner" srcSet="" />
+      <img className="lg:w-auto md:w-[432px] sm:w-auto" src={bannerImg} alt="banner" srcSet="" />
     </div>
   );
 };
