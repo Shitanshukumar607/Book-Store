@@ -11,6 +11,7 @@
   --font-secondary: "Nunito Sans", sans-serif;
 
   --color-primary-regular: #FFCE1A;
+  --color-secondary-regular: #0D0842;
 }
 
 @theme inline {
