@@ -1,10 +1,12 @@
 import React from "react";
 import Banner from "./Banner";
+import TopSellers from "./TopSellers";
 
 const Home = () => {
   return (
-    <div className="min-w-screen">
+    <div>
       <Banner />
+      <TopSellers />
     </div>
   );
 };
