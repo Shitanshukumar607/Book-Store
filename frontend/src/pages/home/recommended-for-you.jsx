@@ -26,7 +26,7 @@ const RecommendedForYou = () => {
   }, []);
 
   return (
-    <div className="flex justify-center flex-col gap-5 py-20 sm:px-10 ">
+    <div className="flex justify-center flex-col gap-5 px-5 py-20 sm:px-10 ">
       <h1 className="font-primary text-secondary-regular text-2xl text-semibold">
         Recommended for you
       </h1>
