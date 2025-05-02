@@ -3,25 +3,12 @@ import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-
 import "./styles.css";
-
 import { Pagination, Autoplay } from "swiper/modules";
 
 import BookCard from "./BookCard";
 
-const TopSellers = () => {
-  const genres = [
-    "Choose a genre",
-    "Business",
-    "Books",
-    "Marketing",
-    "Horror",
-    "Fiction",
-    "Adventure",
-  ];
-
-  const [selectedCategory, setSelectedCategory] = useState("choose a genre");
+const RecommendedForYou = () => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
@@ -29,7 +16,6 @@ const TopSellers = () => {
       try {
         const response = await fetch("/data.json");
         const data = await response.json();
-        console.log("data is ", data);
         setBooks(data);
       } catch (error) {
         console.error("Error fetching books:", error);
@@ -37,41 +23,13 @@ const TopSellers = () => {
     };
 
     fetchBooks();
-  }, [selectedCategory]);
-
-  const filteredBooks =
-    selectedCategory === "choose a genre"
-      ? books
-      : books.filter((book) => {
-          return book.genre === selectedCategory;
-        });
-
-  const handleChange = (event) => {
-    setSelectedCategory(event.target.value.toLowerCase());
-  };
-
-  const allOptions = genres.map((genre, i) => {
-    return (
-      <option key={i} value={genre.toLowerCase()}>
-        {genre}
-      </option>
-    );
-  });
+  }, []);
 
   return (
-    <div className="flex justify-center flex-col gap-5 px-5 sm:px-10 ">
+    <div className="flex justify-center flex-col gap-5 py-20 sm:px-10 ">
       <h1 className="font-primary text-secondary-regular text-2xl text-semibold">
-        Top Sellers
+        Recommended for you
       </h1>
-      <select
-        className="w-40 sm:w-50 h-9 bg-[#EAEAEAE5] text-sm sm:text-base rounded-md p-2 text-start text-secondary-regular font-primary"
-        name="top-sellers"
-        id="top-sellers"
-        onChange={handleChange}
-      >
-        {allOptions}
-      </select>
-
       <Swiper
         slidesPerView={1}
         spaceBetween={10}
@@ -93,11 +51,11 @@ const TopSellers = () => {
             spaceBetween: 10,
           },
         }}
-        modules={[Autoplay, Pagination]}
+        modules={[Pagination, Autoplay]}
         className="mySwiper"
       >
-        {filteredBooks.length > 0 &&
-          filteredBooks.map((book) => (
+        {books.length > 0 &&
+          books.slice(8, 16).map((book) => (
             <SwiperSlide key={book._id}>
               <BookCard book={book} />
             </SwiperSlide>
@@ -107,4 +65,4 @@ const TopSellers = () => {
   );
 };
 
-export default TopSellers;
+export default RecommendedForYou;
