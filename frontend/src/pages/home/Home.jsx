@@ -1,7 +1,7 @@
 import React from "react";
 import Banner from "./Banner";
 import TopSellers from "./TopSellers";
-import RecommendedForYou from "./recommended-for-you-temp";
+import RecommendedForYou from "./RecommendedForYou";
 
 const Home = () => {
   return (
