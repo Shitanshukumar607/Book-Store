@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import avatar from "@/assets/avatar.png";
 
 import { HiMenuAlt1 } from "react-icons/hi";
 import { IoIosSearch } from "react-icons/io";
@@ -41,9 +42,12 @@ const Navbar = () => {
         {currentUser ? (
           <DropdownMenu>
             <DropdownMenuTrigger className="cursor-pointer">
-              <LuUser
+              <img
                 className="w-6 h-6 hidden sm:flex cursor-pointer focus-visible:ring-0 focus:ring-0"
                 aria-label="User"
+                src={avatar}
+                alt="avatar"
+                srcSet=""
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -62,7 +66,12 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <>User</>
+          <Link to="/login">
+            <LuUser
+              className="w-6 h-6 hidden sm:flex cursor-pointer focus-visible:ring-0 focus:ring-0"
+              aria-label="User"
+            />
+          </Link> 
         )}
 
         <MdFavoriteBorder
