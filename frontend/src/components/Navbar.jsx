@@ -13,9 +13,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [currentUser, setCurrentUser] = useState(true);
+
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
   return (
     <nav className="flex justify-between items-center sm:gap-10 px-5 sm:px-10 py-6 shadow-md">
@@ -71,7 +74,7 @@ const Navbar = () => {
               className="w-6 h-6 hidden sm:flex cursor-pointer focus-visible:ring-0 focus:ring-0"
               aria-label="User"
             />
-          </Link> 
+          </Link>
         )}
 
         <MdFavoriteBorder
@@ -79,12 +82,21 @@ const Navbar = () => {
           aria-label="Favorites"
         />
         <Link
-          className="flex items-center justify-center sm:gap-4 h-9 sm:w-36 pl-5 sm:px-0 sm:bg-primary-regular py-0.5 rounded-lg text-black"
+          className={`flex items-center justify-center gap-4 h-9 sm:w-36 sm:px-0 ${
+            cartItems.length > 0
+              ? "bg-primary-regular p-2"
+              : "sm:bg-primary-regular sm:p-4"
+          }  py-0.5 rounded-lg text-black`}
           aria-label="Cart"
           to="/cart"
         >
-          <SlBasket className="w-6 h-6" aria-hidden="true" />
-          <p className="hidden sm:flex">Cart</p>
+          <SlBasket className={cartItems.length > 0 ? "size-5" : "size-6"} aria-hidden="true" />
+
+          {cartItems.length > 0 ? (
+            <p className="flex">{cartItems.length}</p>
+          ) : (
+            <p className="hidden sm:flex">Cart</p>
+          )}
         </Link>
       </div>
     </nav>

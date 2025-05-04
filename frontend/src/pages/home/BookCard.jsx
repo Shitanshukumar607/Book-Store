@@ -3,7 +3,12 @@ import { FiShoppingCart } from "react-icons/fi";
 
 import { Link } from "react-router";
 
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart } from "../../redux/cart/cartSlice";
+
 const BookCard = ({ book }) => {
+  const dispatch = useDispatch();
+
   return (
     <div className=" rounded-lg transition-shadow duration-300">
       <div className="flex sm:items-center sm:h-72 sm:justify-center gap-1 sm:gap-4">
@@ -34,7 +39,10 @@ const BookCard = ({ book }) => {
               ${book?.oldPrice}
             </span>
           </p>
-          <button className="bg-primary-regular text-white font-secondary py-1 px-2 w-[115px] sm:w-[150px] text-sm sm:text-base rounded-lg flex justify-center items-center gap-2.5 ">
+          <button
+            className="bg-primary-regular text-white font-secondary py-1 px-2 w-[115px] sm:w-[150px] text-sm sm:text-base rounded-lg flex justify-center items-center gap-2.5 "
+            onClick={() => dispatch(addToCart(book))}
+          >
             <FiShoppingCart />
             <span>Add to Cart</span>
           </button>
