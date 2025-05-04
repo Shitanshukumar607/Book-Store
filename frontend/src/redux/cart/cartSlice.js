@@ -49,7 +49,9 @@ export const cartSlice = createSlice({
       );
       itemRemovedToast();
     },
-    clearCart: (state) => (state.cartItems = []),
+    clearCart: (state) => {
+      state.cartItems = [];
+    },
   },
 });
 
