@@ -94,4 +94,59 @@ const getBookById = async (req, res) => {
   }
 };
 
-export { getAllBooks, addABook, getBookById };
+const updateBookById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const book = await Book.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+
+    if (!book) {
+      return res.status(404).json({
+        success: false,
+        message: "No book found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Book updated successfully",
+      data: book,
+    });
+  } catch (error) {
+    console.error("Failed to update book. Error :", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update book",
+    });
+  }
+};
+
+const deleteBookById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const book = await Book.findByIdAndDelete(id);
+
+    if (!book) {
+      return res.status(404).json({
+        success: false,
+        message: "No book found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Book deleted successfully",
+    });
+  } catch (error) {
+    console.error("Failed to delete book. Error :", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete book",
+    });
+  }
+};
+
+export { getAllBooks, addABook, getBookById, updateBookById, deleteBookById };
