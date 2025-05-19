@@ -22,7 +22,7 @@ const genres = [
 ];
 
 const TopSellers = () => {
-  const [selectedCategory, setSelectedCategory] = useState("choose a genre");
+  const [selectedGenre, setSelectedGenre] = useState("choose a genre");
 
   const { data: apiData, isLoading, error } = useFetchAllBooksQuery();
 
@@ -55,14 +55,14 @@ const TopSellers = () => {
   console.log("List of books:", books);
 
   const filteredBooks =
-    selectedCategory === "choose a genre"
+    selectedGenre === "choose a genre"
       ? books
       : books.filter((book) => {
-          return book.genre === selectedCategory;
+          return book.genre === selectedGenre;
         });
 
   const handleChange = (event) => {
-    setSelectedCategory(event.target.value.toLowerCase());
+    setSelectedGenre(event.target.value.toLowerCase());
   };
 
   const allOptions = genres.map((genre, i) => {

@@ -54,7 +54,7 @@ const Cart = () => {
                             <p className="sm:ml-4">${item.newPrice}</p>
                           </div>
                           <p className="mt-1 text-sm text-gray-500 capitalize">
-                            <strong>Category:</strong> {item.genre}
+                            <strong>genre:</strong> {item.genre}
                           </p>
                         </div>
                         <div className="flex flex-1 flex-wrap items-end justify-between space-y-2 text-sm">
