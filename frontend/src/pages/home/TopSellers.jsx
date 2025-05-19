@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -9,35 +9,50 @@ import "./styles.css";
 import { Pagination, Autoplay } from "swiper/modules";
 
 import BookCard from "./BookCard";
+import { useFetchAllBooksQuery } from "@/redux/books/booksApi";
+
+const genres = [
+  "Choose a genre",
+  "Business",
+  "Books",
+  "Marketing",
+  "Horror",
+  "Fiction",
+  "Adventure",
+];
 
 const TopSellers = () => {
-  const genres = [
-    "Choose a genre",
-    "Business",
-    "Books",
-    "Marketing",
-    "Horror",
-    "Fiction",
-    "Adventure",
-  ];
-
   const [selectedCategory, setSelectedCategory] = useState("choose a genre");
-  const [books, setBooks] = useState([]);
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await fetch("/data.json");
-        const data = await response.json();
-        console.log("data is ", data);
-        setBooks(data);
-      } catch (error) {
-        console.error("Error fetching books:", error);
-      }
-    };
+  const { data: apiData, isLoading, error } = useFetchAllBooksQuery();
 
-    fetchBooks();
-  }, [selectedCategory]);
+  if (isLoading)
+    return (
+      <div className="flex justify-center flex-col gap-5 px-5 sm:px-10 ">
+        <h1 className="font-primary text-secondary-regular text-2xl text-semibold">
+          Top Sellers
+        </h1>
+        <h1 className="font-primary text-secondary-regular text-xl text-semibold">
+          Loading...
+        </h1>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="flex justify-center flex-col gap-5 px-5 sm:px-10 ">
+        <h1 className="font-primary text-secondary-regular text-2xl text-semibold">
+          Top Sellers
+        </h1>
+        <h1 className="font-primary text-secondary-regular text-xl text-semibold">
+          Failed to load. Please try again later.
+        </h1>
+      </div>
+    );
+
+  const books = apiData?.data ?? [];
+
+  console.log("List of books:", books);
 
   const filteredBooks =
     selectedCategory === "choose a genre"
