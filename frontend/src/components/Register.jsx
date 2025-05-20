@@ -1,5 +1,5 @@
 import { FaGoogle } from "react-icons/fa";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";
@@ -11,6 +11,8 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -18,7 +20,7 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const { registerUser } = useAuth();
+  const { registerUser, signInWithGoogle } = useAuth();
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -31,6 +33,17 @@ const Register = () => {
       setErrorMessage(message);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithGoogle();
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      const message = error.code || "Something went wrong";
+      setErrorMessage(message);
     }
   };
 
@@ -51,6 +64,7 @@ const Register = () => {
                   <button
                     type="button"
                     className="flex w-full items-center justify-center gap-2 rounded-md border bg-white px-4 py-2 text-sm font-medium shadow hover:bg-gray-50"
+                    onClick={handleGoogleLogin}
                   >
                     <FaGoogle size={16} />
                     Register with Google
