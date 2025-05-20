@@ -2,8 +2,13 @@ import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router";
 
 import { useForm } from "react-hook-form";
+import { useAuth } from "@/context/AuthContext";
+import { useState } from "react";
 
 const LoginForm = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -11,9 +16,21 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const { loginUser } = useAuth();
 
-  //   console.log(watch("example")); // watch input value by passing the name of it
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+
+    try {
+      await loginUser(data.email, data.password);
+    } catch (error) {
+      console.log(error);
+      const message = error.code || "Something went wrong";
+      setErrorMessage(message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
@@ -86,11 +103,13 @@ const LoginForm = () => {
                       {...register("password", { required: true })}
                     />
                   </div>
+                  <p className="text-sm text-red-500">{errorMessage}</p>
                   <button
                     type="submit"
-                    className="w-full rounded-md bg-blue-600 px-4 py-2 text-white text-sm font-medium hover:bg-blue-700 transition"
+                    className={`w-full flex justify-center items-center gap-5 rounded-md bg-blue-600 px-4 py-2 text-white text-sm font-medium hover:bg-blue-700 transition running ld-ext-right`}
                   >
-                    Login
+                    Register{" "}
+                    {isLoading && <div className="ld ld-ring ld-spin"></div>}
                   </button>
                 </div>
                 <div className="text-center text-sm">
