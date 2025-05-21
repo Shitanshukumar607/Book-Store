@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router";
 import avatar from "@/assets/avatar.png";
 
@@ -14,9 +13,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSelector } from "react-redux";
+import { useAuth } from "@/context/AuthContext";
 
 const Navbar = () => {
-  const [currentUser, setCurrentUser] = useState(true);
+  const { currentUser, logout } = useAuth();
 
   const cartItems = useSelector((state) => state.cart.cartItems);
 
@@ -66,6 +66,9 @@ const Navbar = () => {
               <DropdownMenuItem className="cursor-pointer">
                 Checkout
               </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer" onClick={logout}>
+                Logout
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
@@ -90,7 +93,10 @@ const Navbar = () => {
           aria-label="Cart"
           to="/cart"
         >
-          <SlBasket className={cartItems.length > 0 ? "size-5" : "size-6"} aria-hidden="true" />
+          <SlBasket
+            className={cartItems.length > 0 ? "size-5" : "size-6"}
+            aria-hidden="true"
+          />
 
           {cartItems.length > 0 ? (
             <p className="flex">{cartItems.length}</p>
