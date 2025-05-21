@@ -1,9 +1,16 @@
+import { useAuth } from "@/context/AuthContext";
+import { useCreateOrderMutation } from "@/redux/orders/ordersApi";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { Bounce, toast } from "react-toastify";
 
 const Checkout = () => {
+  const [isChecked, setIsChecked] = useState(true);
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -11,7 +18,7 @@ const Checkout = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
   const cartItems = useSelector((state) => state.cart.cartItems);
 
@@ -20,8 +27,44 @@ const Checkout = () => {
     totalPrice += cartItems[i].newPrice;
   }
 
-  const [isChecked, setIsChecked] = useState(true);
-  const currentUser = true;
+  const onSubmit = async (data) => {
+    const newOrder = {
+      fullName: data.fullName,
+      email: currentUser?.email,
+      address: {
+        city: data.city,
+        country: data.country,
+        state: data.state,
+        zipcode: data.zipcode,
+      },
+      phoneNumber: data.phoneNumber,
+      productIds: cartItems.map((item) => item?._id),
+      totalPrice: totalPrice,
+    };
+
+    // console.log(newOrder);
+
+    try {
+      await createOrder(newOrder).unwrap();
+
+      toast.success("Order placed successfully!", {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: 0,
+        theme: "colored",
+        transition: Bounce,
+      });
+
+      navigate("/orders");
+    } catch (error) {
+      console.error("error while placing order:", error);
+      alert("Failed to place order");
+    }
+  };
 
   return (
     <div className=" min-h-screen p-6 bg-gray-100 flex items-center justify-center">
@@ -67,8 +110,7 @@ const Checkout = () => {
                       id="email"
                       className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                       disabled
-                      // defaultValue={currentUser?.email}
-                      defaultValue={"dummy@gmail.com"}
+                      defaultValue={currentUser?.email}
                       placeholder="email@domain.com"
                       autoComplete="on"
                       {...register("email", { required: true })}
