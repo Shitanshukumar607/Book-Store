@@ -54,18 +54,21 @@ const Navbar = () => {
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem className="cursor-pointer">
-                Dashboard
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
-                Orders
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
-                Cart page
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
-                Checkout
-              </DropdownMenuItem>
+              <Link to="/orders">
+                <DropdownMenuItem className="cursor-pointer">
+                  Orders
+                </DropdownMenuItem>
+              </Link>
+              <Link to="/cart">
+                <DropdownMenuItem className="cursor-pointer">
+                  Cart page
+                </DropdownMenuItem>
+              </Link>
+              <Link to="/checkout">
+                <DropdownMenuItem className="cursor-pointer">
+                  Checkout
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuItem className="cursor-pointer" onClick={logout}>
                 Logout
               </DropdownMenuItem>
