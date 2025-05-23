@@ -8,6 +8,7 @@ import Checkout from "@/pages/checkout/Checkout";
 import SingleBook from "@/pages/singlePage/SingleBook";
 import PrivateRoute from "./PrivateRoute";
 import OrderPage from "@/pages/OrderPage/OrderPage";
+import AdminLogin from "@/components/AdminLogin";
 
 export const router = createBrowserRouter([
   {
@@ -44,4 +45,8 @@ export const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
+  {
+    path: "/admin",
+    element: <AdminLogin />,
+  }
 ]);
