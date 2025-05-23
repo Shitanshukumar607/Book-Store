@@ -6,6 +6,7 @@ import {
   getBookById,
   updateBookById,
 } from "../controllers/book.controller.js";
+import verifyAdminToken from "../middlewares/verifyToken.js";
 
 // GET    /api/books        → getAllBooks
 // POST   /api/books        → addABook
@@ -15,12 +16,12 @@ import {
 
 const router = Router();
 
-router.route("/").get(getAllBooks).post(addABook);
+router.route("/").get(getAllBooks).post(verifyAdminToken, addABook);
 
 router
   .route("/:id")
   .get(getBookById)
-  .put(updateBookById)
-  .delete(deleteBookById);
+  .put(verifyAdminToken, updateBookById)
+  .delete(verifyAdminToken, deleteBookById);
 
 export default router;
